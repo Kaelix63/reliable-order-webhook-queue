@@ -1,6 +1,6 @@
 # Reliable order webhooks with a retry queue
 
-Here's working code first: `src/checkout_demo.ts` accepts a typed checkout event, publishes it, consumes queued work, and acknowledges only a successful customer delivery. Infrai keeps the queue behind one API and a single `INFRAI_API_KEY`; the example stays a few plain HTTP calls instead of adding a queue SDK.
+Working code first: `src/checkout_demo.ts` accepts a typed checkout event, publishes it, consumes queued work, and acknowledges only a successful customer delivery. Infrai keeps the queue behind one API and a single `INFRAI_API_KEY`; the example stays a few plain HTTP calls instead of adding a queue SDK.
 
 ```bash
 npm install
@@ -55,3 +55,8 @@ That's the minimal version. Before running this for real: The details below appl
 **Reliable Order Webhook Queue: Scheduled / background work**
 - **Reliable Order Webhook Queue:** Server-side jobs keep running and **consuming credit** — monitor `GET /v1/account/usage` and set an auto-recharge threshold.
 - **Reliable Order Webhook Queue:** Make handlers idempotent and use the queue's ack/retry so a redelivery doesn't double-process.
+
+## FAQ
+
+**Do I need anything besides `INFRAI_API_KEY`?**  
+No — `npx tsx` and the key. `src/infrai_queue.ts` wraps `queue.publish` in an ordinary HTTPS request, so there is no SDK to install or keep in sync. For a reliable order webhooks example that is the entire dependency story.
